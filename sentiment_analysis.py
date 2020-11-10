@@ -4,19 +4,24 @@ from keras.preprocessing.text import Tokenizer
 import pandas as pd
 from sklearn import preprocessing
 from sklearn.model_selection import train_test_split
+import numpy as np
+from keras.preprocessing.sequence import pad_sequences
+from keras.layers.embeddings import Embedding
+from keras.layers import Flatten
+import matplotlib.pyplot as plt
+from keras import callbacks
 
 # test comment
 
-df = pd.read_csv('imdb_master.csv',encoding='latin-1')
+df = pd.read_csv('imdb_master.csv', encoding='latin-1')
 print(df.head())
 sentences = df['review'].values
 y = df['label'].values
 
-
-#tokenizing data
+# tokenizing data
 tokenizer = Tokenizer(num_words=2000)
 tokenizer.fit_on_texts(sentences)
-#getting the vocabulary of data
+# getting the vocabulary of data
 sentences = tokenizer.texts_to_matrix(sentences)
 
 le = preprocessing.LabelEncoder()
@@ -26,7 +31,7 @@ X_train, X_test, y_train, y_test = train_test_split(sentences, y, test_size=0.25
 # Number of features
 # print(input_dim)
 model = Sequential()
-model.add(layers.Dense(300,input_dim=input_dim, activation='relu'))
+model.add(layers.Dense(300, input_dim=input_dim, activation='relu'))
 model.add(layers.Dense(3, activation='sigmoid'))
-model.compile(loss='sparse_categorical_crossentropy',optimizer='adam',metrics=['acc'])
-history=model.fit(X_train,y_train, epochs=5, verbose=True, validation_data=(X_test,y_test), batch_size=256)
+model.compile(loss='sparse_categorical_crossentropy', optimizer='adam', metrics=['acc'])
+history = model.fit(X_train, y_train, epochs=5, verbose=True, validation_data=(X_test, y_test), batch_size=256)
