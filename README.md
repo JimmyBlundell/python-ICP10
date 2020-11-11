@@ -35,4 +35,5 @@ Once again, running this code gave the following output and plots:
 ![](https://github.com/JimmyBlundell/python-ICP10/blob/master/screenshots/20newsgroups-epochs.png)
 ![](https://github.com/JimmyBlundell/python-ICP10/blob/master/screenshots/20newsgroups-accuracy.png)
 ![](https://github.com/JimmyBlundell/python-ICP10/blob/master/screenshots/20newsgroups-loss.png)<br>
-While the loss was not greatly affected, the accuracy for this dataset was much higher than the previous one. Runtime remained roughly the same.
+While the loss was not greatly affected, the accuracy for this dataset was much higher than the previous one. Runtime remained roughly the same.<br><br>
+Lastly, a video covering the assignment: [Youtube Link](https://youtu.be/ka49k3stIsQ)
