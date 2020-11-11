@@ -4,8 +4,6 @@ from keras.preprocessing.text import Tokenizer
 import pandas as pd
 from sklearn import preprocessing
 from sklearn.model_selection import train_test_split
-from keras.callbacks import TensorBoard
-import numpy as np
 from keras.preprocessing.sequence import pad_sequences
 from keras.layers.embeddings import Embedding
 from keras.layers import Flatten
