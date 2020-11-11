@@ -1,35 +1,31 @@
-from keras.models import Sequential
-from keras import layers
-from keras.preprocessing.text import Tokenizer
 import pandas as pd
+from keras import layers
+from keras_preprocessing.text import Tokenizer
 from sklearn import preprocessing
 from sklearn.model_selection import train_test_split
 from keras.preprocessing.sequence import pad_sequences
 import matplotlib.pyplot as plt
+from sklearn.datasets import fetch_20newsgroups
+from tensorflow.python.keras.models import Sequential
 
-# test comment
+newsgroups_train = fetch_20newsgroups(subset='train', shuffle=True)
+sentences = newsgroups_train.data
+y = newsgroups_train.target
 
-df = pd.read_csv('imdb_master.csv', encoding='latin-1')
-print(df.head())
-sentences = df['review'].values
-y = df['label'].values
-
-# tokenizing data
 tokenizer = Tokenizer(num_words=2000)
 tokenizer.fit_on_texts(sentences)
-# getting the vocabulary of data
+max_len = max([len(s.split()) for s in sentences])
+vocab_len = len(tokenizer.word_index) + 1
 sentences = tokenizer.texts_to_matrix(sentences)
-padded = pad_sequences(sentences, maxlen=2000) # Max review len turned out to be 2000
-
+padded_docs = pad_sequences(sentences, maxlen=max_len)
 
 le = preprocessing.LabelEncoder()
 y = le.fit_transform(y)
-X_train, X_test, y_train, y_test = train_test_split(padded, y, test_size=0.25, random_state=1000)
-
-
+X_train, X_test, y_train, y_test = train_test_split(padded_docs, y, test_size=0.25, random_state=0)
 model = Sequential()
-model.add(layers.Dense(300, input_dim=2000, activation='relu')) # fixed error: specified input_dim parameter
-model.add(layers.Dense(3, activation='softmax')) # fixed error: changed from sigmoid to softmax
+
+model.add(layers.Dense(300, input_dim=11821, activation='relu'))
+model.add(layers.Dense(20, activation='softmax'))
 model.compile(loss='sparse_categorical_crossentropy', optimizer='adam', metrics=['acc'])
 history = model.fit(X_train, y_train, epochs=5, verbose=True, validation_data=(X_test, y_test), batch_size=256)
 
@@ -50,8 +46,6 @@ plt.xlabel('# epochs')
 plt.ylabel('Loss')
 plt.legend(['Training', 'Validation'], loc='upper right')
 plt.show()
-
-
 
 
 
